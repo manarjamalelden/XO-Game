@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_player_profile,xo_game.player_profile,model_player_profile,,1,1,1,1
+access_game_details,xo_game.game_details,model_game_details,,1,1,1,1
+access_games_report_wizard,xo_game.games_report_wizard,model_games_report_wizard,,1,1,1,1

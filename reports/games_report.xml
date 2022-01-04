@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <report
+            id="players_report"
+            string="Games Report"
+            model="games.report.wizard"
+            report_type="qweb-pdf"
+            file="xo_game.games_report"
+            name="xo_game.games_report"
+    />
+
+    <template id="xo_game.games_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+            <h2 style="text-align:center;">
+                Games
+            </h2>
+            <div class="page">
+                <div class="row mt32 mb32">
+                    <div class="col-auto mw-100 mb-2" t-if="date_from" name="date_from">
+                        <strong>Date From :</strong>
+                        <span class="m-0" t-esc="date_from"/>
+                    </div>
+                    <div class="col-auto mw-100 mb-2" t-if="date_to" name="date_to">
+                        <strong>Date to :</strong>
+                        <span class="m-0" t-esc="date_to"/>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered" border='1px solid black' style="width:100%" name="call_kpis_table">
+                <thead>
+                    <tr>
+                        <th class="text-left">
+                            <span>Game ID</span>
+                        </th>
+                        <th class="text-left">
+                            <span>Player #1</span>
+                        </th>
+                        <th class="text-left">
+                            <span>Player #2</span>
+                        </th>
+                        <th class="text-left">
+                            <span>Duration</span>
+                        </th>
+                        <th class="text-left">
+                            <span>winner</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="all_games" t-as="game">
+                        <td class="text-left">
+                            <span t-esc="game.name" t-options="{'widget': 'text'}"/>
+                        </td>
+                        <td class="text-left">
+                            <span t-esc="game.player_1.name"/>
+                        </td>
+                        <td class="text-left">
+                            <span t-esc="game.player_2.name"/>
+                        </td>
+                        <td class="text-left">
+                            <span t-esc="game.duration"/>
+                        </td>
+                        <td class="text-left">
+                            <span t-esc="game.winner"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </t>
+        </t>
+    </template>
+</odoo>

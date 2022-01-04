@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- player profile tree view -->
+    <record id="player_profile_view_tree" model="ir.ui.view">
+        <field name="name">player.profile.tree</field>
+        <field name="model">player.profile</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="player_code"/>
+                <field name="classification"/>
+                <field name="games_number"/>
+                <field name="win_games_number"/>
+                <field name="loss_games_number"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="player_profile_view_form" model="ir.ui.view">
+        <field name="name">player.profile.form</field>
+        <field name="model">player.profile</field>
+        <field name="arch" type="xml">
+            <form string="Players">
+                <header>
+                    <field name="state" widget="statusbar" class="oe_right" readonly="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="action_view_all_games" type="object"
+                                icon="fa-th-list">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">All Games</span>
+                            </div>
+                        </button>
+
+                        <button class="oe_stat_button" name="action_view_all_games" type="object"
+                                icon="fa-check">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="wins"/>
+                                </span>
+                                <span class="o_stat_text">Win Games</span>
+                            </div>
+                        </button>
+
+                        <button class="oe_stat_button" name="action_view_loss_games" type="object"
+                                icon="fa-times">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="losses"/>
+                                </span>
+                                <span class="o_stat_text">Loss Games</span>
+                            </div>
+                        </button>
+
+                        <button class="oe_stat_button" name="action_view_tie_games" type="object"
+                                icon="fa-circle">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value">
+                                    <field name="tie"/>
+                                </span>
+                                <span class="o_stat_text">Tie Games</span>
+                            </div>
+                        </button>
+                    </div>
+                    <field name="image" widget="image" class="oe_avatar" style="margin-right:50px"/>
+                    <h1>
+                        <field name="name" placeholder="Name"/>
+                        <br/>
+                        <field name="player_code"/>
+                    </h1>
+                    <group string="Player Information">
+                        <group>
+                            <label for="" name="address_name">
+                                <b>Address</b>
+                            </label>
+                            <div class="o_address_format">
+                                <field name="street" placeholder="Street..." class="o_address_street"/>
+                                <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                <field name="city" placeholder="City" class="o_address_city"/>
+                                <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="classification"/>
+                            <field name="country_id"/>
+                            <field name="phone" widget="phone"/>
+                            <field name="email" widget="email"/>
+                        </group>
+                    </group>
+                    <group col="4" colspan="4" string="Game Details">
+                        <field name="match_time"/>
+                        <field name="game_duration"/>
+                        <field name="win_rate"/>
+                    </group>
+                    <group>
+                        <field name="game_ids" invisible="1"/>
+                        <field name="win_ids" invisible="1"/>
+                        <field name="loss_ids" invisible="1"/>
+                        <field name="tie_ids" invisible="1"/>
+                        <field name="win_games_number" invisible="1"/>
+                        <field name="loss_games_number" invisible="1"/>
+                        <field name="tie_games_number" invisible="1"/>
+                        <field name="games_number" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- player profile search view -->
+    <record id="view_player_profile_search" model="ir.ui.view">
+        <field name="name">player.profile.search</field>
+        <field name="model">player.profile</field>
+        <field name="arch" type="xml">
+            <search>
+                <group expand="0" string="Group By">
+                    <filter string="Country"
+                            name="country_id"
+                            domain=""
+                            context="{'group_by':'country_id'}"/>
+                    <filter string="Classification"
+                            name="classification"
+                            domain="[]"
+                            context="{'group_by':'classification'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <!-- player Kanban View -->
+    <record model="ir.ui.view" id="player_profile_kanban_view">
+        <field name="name">player.profile.kanban</field>
+        <field name="model">player.profile</field>
+        <field name="arch" type="xml">
+            <kanban class="o_res_partner_kanban">
+                <field name="name"/>
+                <field name="player_code"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="street"/>
+                <field name="street2"/>
+                <field name="zip"/>
+                <field name="city"/>
+                <field name="country_id"/>
+                <field name="image"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_res_partner_kanban">
+
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('player.profile', 'image_small', record.raw_value)"
+                                     t-att-title="record.value" t-att-alt="record.value"
+                                     class="oe_kanban_avatar float-right"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title oe_partner_heading">
+                                    <field name="name"/>
+                                </strong>
+                                <div class="o_kanban_tags_section oe_kanban_partner_categories"/>
+                                <strong class="o_kanban_record_title oe_partner_heading">
+                                    <field name="player_code"/>
+                                </strong>
+                                <div class="o_kanban_tags_section oe_kanban_partner_categories"/>
+
+                                <ul>
+                                    <li t-if="record.city.raw_value and !record.country_id.raw_value">
+                                        <field name="city"/>
+                                    </li>
+                                    <li t-if="!record.city.raw_value and record.country_id.raw_value">
+                                        <field name="country_id"/>
+                                    </li>
+                                    <li t-if="record.city.raw_value and record.country_id.raw_value"><field
+                                            name="city"/>,
+                                        <field name="country_id"/>
+                                    </li>
+                                    <li t-if="record.email.raw_value" class="o_text_overflow">
+                                        <field name="email"/>
+                                    </li>
+                                </ul>
+                                <div class="oe_kanban_partner_links"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="action_player_profile_graph">
+        <field name="name">player.profile.graph</field>
+        <field name="model">player.profile</field>
+        <field name="arch" type="xml">
+            <graph>
+                <field name="country_id" type="row"/>
+                <field name="games_number" type="measure"/>
+                <field name="win_games_number" type="measure"/>
+                <field name="loss_games_number" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- player profile action window -->
+    <record id="player_profile_action" model="ir.actions.act_window">
+        <field name="name">Player Profile</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">player.profile</field>
+        <field name="view_mode">tree,kanban,form,graph</field>
+    </record>
+
+    <!-- XO game menus -->
+    <menuitem name="Tic Tak Toe (XO) Game" id="menu_xo_game" web_icon="xo_game/static/description/icon.png"/>
+    <menuitem name="Game Process" id="menu_xo_game_detelis" parent="menu_xo_game" sequence="1" web_icon="xo_game/static/description/icon.png"/>
+    <menuitem name="Player Profile" id="player_profile_menu" parent="menu_xo_game_detelis"
+              action="player_profile_action" sequence="1"/>
+
+</odoo>
